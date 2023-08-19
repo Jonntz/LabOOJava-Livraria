@@ -4,8 +4,10 @@ import one.digitalinovation.laboojava.basedados.Banco;
 import one.digitalinovation.laboojava.entidade.Pedido;
 import one.digitalinovation.laboojava.entidade.Livro;
 import one.digitalinovation.laboojava.entidade.Produto;
+import one.digitalinovation.laboojava.entidade.Caderno;
 import one.digitalinovation.laboojava.entidade.Cupom;
 import one.digitalinovation.laboojava.entidade.constantes.Genero;
+import one.digitalinovation.laboojava.entidade.constantes.Materias;
 import one.digitalinovation.laboojava.negocio.ProdutoNegocio;
 
 import java.util.Optional;
@@ -59,6 +61,27 @@ public final class LeitoraDados {
 		livro.setPreco(Double.parseDouble(preco));
 
 		return livro;
+	}
+	
+	
+	/**
+	 * Ler os dados do livro a ser cadastrado.
+	 * @return Um livro a partir dos dados de entrada
+	 */
+	public static Caderno lerCaderno() {
+
+		System.out.println("Cadastrando caderno...");
+		Caderno caderno = new Caderno();
+
+		System.out.println("Digite o tipo: M2, M5, M10");
+		String tipo = lerDado();
+		caderno.setTipo(Materias.valueOf(tipo.toUpperCase()));
+
+		System.out.println("Digite o preço(padrão 0.0)");
+		String preco = lerDado();
+		caderno.setPreco(Double.parseDouble(preco));
+
+		return caderno;
 	}
 
 	/**

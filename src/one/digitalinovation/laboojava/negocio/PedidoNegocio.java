@@ -31,7 +31,7 @@ public class PedidoNegocio {
 
         double total = 0.0;
         for (Produto produto: produtos) {
-            total += produto.calcularFrete();
+            total += produto.getPreco() + produto.calcularFrete();
         }
 
         if (cupom != null) {
@@ -39,7 +39,6 @@ public class PedidoNegocio {
         } else {
             return  total;
         }
-
     }
 
     /**
@@ -57,15 +56,16 @@ public class PedidoNegocio {
      */
     public void salvar(Pedido novoPedido, Cupom cupom) {
 
-        //Definir padrão código
-        //Pegar data do dia corrente
-        //Formatar código
+    	String codigo = "PE%4d%2d%84d";
+    	LocalDate hoje = LocalDate.now();
+    	codigo = String.format(codigo, hoje.getYear(), hoje.getMonthValue(), bancoDados.getPedidos().length);
 
-        //Setar código no pedido
-        //Setar cliente no pedido
-        //Calcular e set total
-        //Adicionar no banco
-        //Mensagem
+    	novoPedido.setCodigo(codigo);
+    	novoPedido.setCliente(bancoDados.getCliente());
+    	novoPedido.setTotal(calcularTotal(novoPedido.getProdutos(), cupom));
+        bancoDados.adicionarPedido(novoPedido);
+   
+        System.out.println("Pedido adicionado com sucesso");
     }
 
     /**
@@ -95,6 +95,15 @@ public class PedidoNegocio {
     /**
      * Lista todos os pedidos realizados.
      */
-    //TODO Método de listar todos os pedidos
+    
+    public void listarTodos() {
 
+        if (bancoDados.getPedidos().length == 0) {
+            System.out.println("Não existem pedidos cadastrados");
+        } else {
+            for (Pedido pedido: bancoDados.getPedidos()) {
+                System.out.println(pedido.toString());
+            }
+        }
+    }
 }
